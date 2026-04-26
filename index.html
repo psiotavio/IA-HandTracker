@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>IA HandTracker</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" defer></script>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero" aria-labelledby="app-title">
+        <div>
+          <p class="eyebrow">camera · landmarks · tempo real</p>
+          <h1 id="app-title">IA HandTracker</h1>
+          <p class="intro">
+            Abra a câmera, detecte mãos e veja os 21 pontos anatômicos mapeados direto no vídeo.
+          </p>
+        </div>
+
+        <div class="status-strip" aria-label="status do rastreamento">
+          <div class="metric">
+            <span class="metric-label">Mãos</span>
+            <strong id="hand-count">0</strong>
+          </div>
+          <div class="metric">
+            <span class="metric-label">FPS</span>
+            <strong id="fps">0</strong>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Precisão</span>
+            <strong id="confidence">--</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="controle de câmera e pontos da mão">
+        <div class="stage-panel">
+          <div class="stage-toolbar">
+            <div>
+              <p class="panel-label">Preview</p>
+              <h2>Mapa da mão</h2>
+            </div>
+            <div class="toolbar-actions">
+              <button class="control-button primary" id="camera-toggle" type="button">
+                Iniciar câmera
+              </button>
+              <button class="control-button" id="clear-spell" type="button" disabled>
+                Limpar feitiço
+              </button>
+              <button class="control-button" id="switch-camera" type="button" disabled>
+                Trocar câmera
+              </button>
+            </div>
+          </div>
+
+          <div class="video-stage">
+            <video id="video" playsinline muted></video>
+            <canvas id="overlay"></canvas>
+            <canvas id="spell-canvas"></canvas>
+            <div class="spell-name" id="spell-name" aria-live="polite"></div>
+            <div class="magic-pill" id="magic-pill">🤘 ativa o modo Harry Potter</div>
+            <button class="fullscreen-exit" id="fullscreen-exit" type="button">Sair da tela cheia</button>
+            <div class="empty-state" id="empty-state">
+              <span class="scan-mark"></span>
+              <p>A câmera ainda está desligada</p>
+            </div>
+          </div>
+
+          <p class="status-message" id="status-message">
+            Clique em iniciar e permita o acesso à câmera quando o navegador pedir.
+          </p>
+        </div>
+
+        <aside class="control-panel" aria-label="ajustes e coordenadas">
+          <div class="panel-block">
+            <p class="panel-label">Ajustes</p>
+            <label class="field">
+              <span>Mãos rastreadas</span>
+              <select id="max-hands">
+                <option value="1">1 mão</option>
+                <option value="2" selected>2 mãos</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Detecção</span>
+              <input id="detect-confidence" type="range" min="0.1" max="0.95" step="0.05" value="0.7" />
+              <output id="detect-confidence-value">70%</output>
+            </label>
+            <label class="field">
+              <span>Tracking</span>
+              <input id="track-confidence" type="range" min="0.1" max="0.95" step="0.05" value="0.7" />
+              <output id="track-confidence-value">70%</output>
+            </label>
+            <label class="toggle">
+              <input id="mirror-view" type="checkbox" checked />
+              <span>Espelhar visualização</span>
+            </label>
+            <label class="toggle">
+              <input id="show-labels" type="checkbox" checked />
+              <span>Mostrar números dos pontos</span>
+            </label>
+          </div>
+
+          <div class="panel-block magic-panel">
+            <p class="panel-label">Easter egg</p>
+            <div class="magic-card" id="magic-card">
+              <strong>Modo Harry Potter</strong>
+              <span id="magic-status">Faça 🤘 para ativar. Raio: Avada. Traço horizontal: Lumos. Círculo: Nox.</span>
+            </div>
+          </div>
+
+          <div class="panel-block">
+            <p class="panel-label">Pontos principais</p>
+            <div class="landmark-table" id="landmark-table">
+              <p class="table-empty">Nenhuma mão detectada ainda.</p>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>

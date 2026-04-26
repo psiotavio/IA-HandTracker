@@ -30,4 +30,4 @@ O navegador precisa de permissao de camera e acesso a internet para baixar o Med
 - Desenhar um traço horizontal ativa Lumos: a area da camera recebe um clarão branco de alta intensidade, com aproximadamente 85% de opacidade.
 - Desenhar um circulo ativa Nox: a area da camera escurece com fade in/out, como o contrario do Lumos.
 - Abrir e fechar a mao duas vezes seguidas ativa/desativa o modo tela cheia da camera. Use Esc ou o botao "Sair da tela cheia" para sair.
-# IA-HandTracker
+
